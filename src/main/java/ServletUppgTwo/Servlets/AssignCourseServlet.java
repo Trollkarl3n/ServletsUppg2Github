@@ -36,9 +36,8 @@ public class AssignCourseServlet extends HttpServlet {
             }
             rs.close();
             stmt.close();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             out.println("<option disabled selected>Inga studenter tillgängliga</option>");
-        } catch (ClassNotFoundException e) {
             out.println("<p>Fel: " + e.getMessage() + "</p>");
         }
         out.println("</select><br>");
@@ -56,9 +55,8 @@ public class AssignCourseServlet extends HttpServlet {
             }
             rs.close();
             stmt.close();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             out.println("<option disabled selected>Inga kurser tillgängliga</option>");
-        } catch (ClassNotFoundException e) {
             out.println("<p>Fel: " + e.getMessage() + "</p>");
         }
         out.println("</select><br>");
@@ -78,7 +76,8 @@ public class AssignCourseServlet extends HttpServlet {
 
         Connection conn = null;
         try {
-            conn = DBConnection.getConnection();
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/testgritacademy", "User", "");
             PreparedStatement pstmt = conn.prepareStatement("INSERT INTO attendance (student_id, course_id) VALUES (?, ?)");
             pstmt.setInt(1, studentId);
             pstmt.setInt(2, courseId);
@@ -87,7 +86,7 @@ public class AssignCourseServlet extends HttpServlet {
 
             // Skicka om användaren tillbaka till samma sida (doGet-metoden) efter lyckad insättning
             response.sendRedirect("AssignCourseServlet");
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
             out.println("<p>Fel: " + e.getMessage() + "</p>");
