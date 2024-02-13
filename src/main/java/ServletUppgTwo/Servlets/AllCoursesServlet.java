@@ -13,6 +13,21 @@ public class AllCoursesServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<link rel='stylesheet' href='stylesheet.css>'");
+        out.println("nav class='navtop'");
+        out.println("<a href=\"index.html\">Hem</a>");
+        out.println("<a href=\"addcourse\">Lägg till kurser</a>");
+        out.println("<a href=\"course\">Kurser</a>");
+        out.println("<a href=\"addstudent\">Lägg till student");
+        out.println("<a href=\"students\">Studenter");
+        out.println("<a href=\"assigncourse\">Tillge kurs");
+        out.println("<a href=\"studentcourse\">Studenters kurser");
+        out.println("</nav");
+        out.println("<footer><p>Av Erik Werther</p></footer>");
+        out.println("</html>");
+
         // Skapa en anslutning till databasen
         Connection conn = null;
         try {
@@ -34,14 +49,6 @@ public class AllCoursesServlet extends HttpServlet {
                 out.println("</tr>");
             }
             out.println("</table>");
-
-            out.println("<a href=\"index.html\">Hem</a>");
-            out.println("<a href=\"addcourse\">Lägg till kurser</a>");
-            out.println("<a href=\"course\">Kurser</a>");
-            out.println("<a href=\"addstudent\">Lägg till student");
-            out.println("<a href=\"students\">Studenter");
-            out.println("<a href=\"assigncourse\">Tillge kurs");
-            out.println("<a href=\"studentcourse\">Studenters kurser");
 
             rs.close();
             stmt.close();

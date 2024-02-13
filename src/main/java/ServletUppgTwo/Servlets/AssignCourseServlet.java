@@ -22,7 +22,7 @@ public class AssignCourseServlet extends HttpServlet {
         out.println("<body>");
 
         out.println("<h2>Assign Course to Student</h2>");
-        out.println("<form action=\"AssignCourseServlet\" method=\"post\">");
+        out.println("<form method=\"post\">");
 
         // Hämta och visa alla studenter från databasen i en dropdown-lista
         out.println("<label for=\"student\">Välj student:</label>");
