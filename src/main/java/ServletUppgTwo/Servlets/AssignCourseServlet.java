@@ -1,10 +1,12 @@
 package ServletUppgTwo.Servlets;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 
+@WebServlet (urlPatterns = "/assigncourse")
 public class AssignCourseServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
