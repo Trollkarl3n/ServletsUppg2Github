@@ -6,7 +6,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 
-@WebServlet (urlPatterns = "/addcourse")
+@WebServlet(urlPatterns = "/addcourse")
 public class AddCourseServlet extends HttpServlet {
 
     @Override
@@ -14,26 +14,43 @@ public class AddCourseServlet extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Lägg till ny kurs</title>");
-        out.println("</head>");
-        out.println("<body>");
+        // Bygg upp HTML-strukturen med inbäddade CSS-stilar
+        StringBuilder htmlResponse = new StringBuilder();
+        htmlResponse.append("<!DOCTYPE html>");
+        htmlResponse.append("<html>");
+        htmlResponse.append("<head>");
+        htmlResponse.append("<title>Lägg till ny kurs</title>");
 
-        out.println("<h2>Lägg till ny kurs</h2>");
-        out.println("<form method=\"post\">");
-        out.println("<label for=\"name\">Kursnamn:</label>");
-        out.println("<input type=\"text\" id=\"name\" name=\"name\" required><br>");
-        out.println("<label for=\"yhp\">YHP:</label>");
-        out.println("<input type=\"number\" id=\"yhp\" name=\"yhp\" required><br>");
-        out.println("<label for=\"description\">Beskrivning:</label><br>");
-        out.println("<textarea id=\"description\" name=\"description\" required></textarea><br>");
-        out.println("<input type=\"submit\" value=\"Lägg till kurs\">");
-        out.println("</form>");
+        // CSS-stilar inbäddade i HTML-filen
+        htmlResponse.append("<style>");
+        htmlResponse.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; }");
+        htmlResponse.append("h2 { color: #333; }");
+        htmlResponse.append("form { width: 50%; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); }");
+        htmlResponse.append("label { display: block; margin-bottom: 10px; }");
+        htmlResponse.append("input[type=\"text\"], input[type=\"number\"], textarea, input[type=\"submit\"] { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }");
+        htmlResponse.append("input[type=\"submit\"] { background-color: #4CAF50; color: white; cursor: pointer; }");
+        htmlResponse.append("input[type=\"submit\"]:hover { background-color: #45a049; }");
+        htmlResponse.append("</style>");
 
-        out.println("</body>");
-        out.println("</html>");
+        htmlResponse.append("</head>");
+        htmlResponse.append("<body>");
+
+        htmlResponse.append("<h2>Lägg till ny kurs</h2>");
+        htmlResponse.append("<form method=\"post\">");
+        htmlResponse.append("<label for=\"name\">Kursnamn:</label>");
+        htmlResponse.append("<input type=\"text\" id=\"name\" name=\"name\" required><br>");
+        htmlResponse.append("<label for=\"yhp\">YHP:</label>");
+        htmlResponse.append("<input type=\"number\" id=\"yhp\" name=\"yhp\" required><br>");
+        htmlResponse.append("<label for=\"description\">Beskrivning:</label><br>");
+        htmlResponse.append("<textarea id=\"description\" name=\"description\" required></textarea><br>");
+        htmlResponse.append("<input type=\"submit\" value=\"Lägg till kurs\">");
+        htmlResponse.append("</form>");
+
+        htmlResponse.append("</body>");
+        htmlResponse.append("</html>");
+
+        // Skriv ut HTML-strukturen till responsen
+        out.println(htmlResponse.toString());
     }
 
     @Override
@@ -71,12 +88,14 @@ public class AddCourseServlet extends HttpServlet {
             // Stäng PreparedStatement
             pstmt.close();
         } catch (Exception e) {
+            // Hantera eventuella fel och visa meddelande
             out.println("<p>Fel: " + e.getMessage() + "</p>");
         } finally {
             try {
                 // Stäng anslutningen till databasen
                 if (conn != null) conn.close();
             } catch (SQLException e) {
+                // Hantera eventuella fel och visa meddelande
                 out.println("<p>Fel: " + e.getMessage() + "</p>");
             }
         }

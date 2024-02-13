@@ -6,27 +6,40 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.*;
 
-@WebServlet (urlPatterns = "/assigncourse")
+@WebServlet(urlPatterns = "/assigncourse")
 public class AssignCourseServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        // Öppna HTML-formuläret för att associera en student med en kurs
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Assign Course</title>");
-        out.println("</head>");
-        out.println("<body>");
+        // Bygg upp HTML-strukturen med inbäddade CSS-stilar
+        StringBuilder htmlResponse = new StringBuilder();
+        htmlResponse.append("<!DOCTYPE html>");
+        htmlResponse.append("<html>");
+        htmlResponse.append("<head>");
+        htmlResponse.append("<title>Assign Course</title>");
 
-        out.println("<h2>Assign Course to Student</h2>");
-        out.println("<form method=\"post\">");
+        // CSS-stilar inbäddade i HTML-filen
+        htmlResponse.append("<style>");
+        htmlResponse.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; }");
+        htmlResponse.append("h2 { color: #333; }");
+        htmlResponse.append("form { width: 50%; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); }");
+        htmlResponse.append("label { display: block; margin-bottom: 10px; }");
+        htmlResponse.append("select, input[type=\"submit\"] { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }");
+        htmlResponse.append("input[type=\"submit\"] { background-color: #4CAF50; color: white; cursor: pointer; }");
+        htmlResponse.append("input[type=\"submit\"]:hover { background-color: #45a049; }");
+        htmlResponse.append("</style>");
+
+        htmlResponse.append("</head>");
+        htmlResponse.append("<body>");
+
+        htmlResponse.append("<h2>Assign Course to Student</h2>");
+        htmlResponse.append("<form method=\"post\">");
 
         // Hämta och visa alla studenter från databasen i en dropdown-lista
-        out.println("<label for=\"student\">Välj student:</label>");
-        out.println("<select name=\"student\" id=\"student\">");
+        htmlResponse.append("<label for=\"student\">Välj student:</label>");
+        htmlResponse.append("<select name=\"student\" id=\"student\">");
 
         Connection conn = null;
         try {
@@ -35,41 +48,46 @@ public class AssignCourseServlet extends HttpServlet {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM students");
             while (rs.next()) {
-                out.println("<option value=\"" + rs.getInt("id") + "\">" + rs.getString("Fname") + " " + rs.getString("Lname") + "</option>");
+                htmlResponse.append("<option value=\"" + rs.getInt("id") + "\">" + rs.getString("Fname") + " " + rs.getString("Lname") + "</option>");
             }
             rs.close();
             stmt.close();
         } catch (SQLException | ClassNotFoundException e) {
-            out.println("<option disabled selected>Inga studenter tillgängliga</option>");
-            out.println("<p>Fel: " + e.getMessage() + "</p>");
+            // Hantera eventuella fel och visa meddelande
+            htmlResponse.append("<option disabled selected>Inga studenter tillgängliga</option>");
+            htmlResponse.append("<p class=\"error\">Fel: " + e.getMessage() + "</p>");
         }
-        out.println("</select><br>");
+        htmlResponse.append("</select><br>");
 
         // Hämta och visa alla kurser från databasen i en dropdown-lista
-        out.println("<label for=\"course\">Välj kurs:</label>");
-        out.println("<select name=\"course\" id=\"course\">");
+        htmlResponse.append("<label for=\"course\">Välj kurs:</label>");
+        htmlResponse.append("<select name=\"course\" id=\"course\">");
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/testgritacademy", "User", "");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM courses");
             while (rs.next()) {
-                out.println("<option value=\"" + rs.getInt("id") + "\">" + rs.getString("name") + "</option>");
+                htmlResponse.append("<option value=\"" + rs.getInt("id") + "\">" + rs.getString("name") + "</option>");
             }
             rs.close();
             stmt.close();
         } catch (SQLException | ClassNotFoundException e) {
-            out.println("<option disabled selected>Inga kurser tillgängliga</option>");
-            out.println("<p>Fel: " + e.getMessage() + "</p>");
+            // Hantera eventuella fel och visa meddelande
+            htmlResponse.append("<option disabled selected>Inga kurser tillgängliga</option>");
+            htmlResponse.append("<p class=\"error\">Fel: " + e.getMessage() + "</p>");
         }
-        out.println("</select><br>");
+        htmlResponse.append("</select><br>");
 
         // Lägg till en knapp för att skicka formuläret
-        out.println("<input type=\"submit\" value=\"Assign Course\">");
-        out.println("</form>");
+        htmlResponse.append("<input type=\"submit\" value=\"Assign Course\">");
+        htmlResponse.append("</form>");
 
-        out.println("</body>");
-        out.println("</html>");
+        htmlResponse.append("</body>");
+        htmlResponse.append("</html>");
+
+        // Skriv ut HTML-strukturen till responsen
+        out.println(htmlResponse.toString());
     }
 
     @Override
@@ -91,9 +109,10 @@ public class AssignCourseServlet extends HttpServlet {
             // Skicka om användaren tillbaka till samma sida (doGet-metoden) efter lyckad insättning
             response.sendRedirect("index.html");
         } catch (SQLException | ClassNotFoundException e) {
+            // Hantera eventuella fel och visa meddelande
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
-            out.println("<p>Fel: " + e.getMessage() + "</p>");
+            out.println("<p class=\"error\">Fel: " + e.getMessage() + "</p>");
         } finally {
             try {
                 if (conn != null) conn.close();
