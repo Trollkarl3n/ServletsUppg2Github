@@ -8,6 +8,7 @@ import java.sql.*;
 
 @WebServlet (urlPatterns = "/assigncourse")
 public class AssignCourseServlet extends HttpServlet {
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -71,6 +72,7 @@ public class AssignCourseServlet extends HttpServlet {
         out.println("</html>");
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Hantera postdata för att associera student med kurs och lägg till det i databasen
         int studentId = Integer.parseInt(request.getParameter("student"));
@@ -87,7 +89,7 @@ public class AssignCourseServlet extends HttpServlet {
             pstmt.close();
 
             // Skicka om användaren tillbaka till samma sida (doGet-metoden) efter lyckad insättning
-            response.sendRedirect("AssignCourseServlet");
+            response.sendRedirect("index.html");
         } catch (SQLException | ClassNotFoundException e) {
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();

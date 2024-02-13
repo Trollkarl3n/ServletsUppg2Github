@@ -22,7 +22,7 @@ public class AddStudentServlet extends HttpServlet {
         out.println("<body>");
 
         out.println("<h2>Lägg till ny student</h2>");
-        out.println("<form action=\"AddStudentServlet\" method=\"post\">");
+        out.println("<form method=\"post\">");
         out.println("<label for=\"fname\">Förnamn:</label>");
         out.println("<input type=\"text\" id=\"fname\" name=\"fname\" required><br>");
         out.println("<label for=\"lname\">Efternamn:</label>");
@@ -34,6 +34,7 @@ public class AddStudentServlet extends HttpServlet {
         out.println("</html>");
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();

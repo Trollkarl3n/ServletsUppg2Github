@@ -22,7 +22,7 @@ public class AddCourseServlet extends HttpServlet {
         out.println("<body>");
 
         out.println("<h2>Lägg till ny kurs</h2>");
-        out.println("<form action=\"AddCourseServlet\" method=\"post\">");
+        out.println("<form method=\"post\">");
         out.println("<label for=\"name\">Kursnamn:</label>");
         out.println("<input type=\"text\" id=\"name\" name=\"name\" required><br>");
         out.println("<label for=\"yhp\">YHP:</label>");
@@ -36,6 +36,7 @@ public class AddCourseServlet extends HttpServlet {
         out.println("</html>");
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -66,6 +67,7 @@ public class AddCourseServlet extends HttpServlet {
                 out.println("<p>Det uppstod ett fel. Kursen kunde inte läggas till.</p>");
             }
 
+            response.sendRedirect("index.html");
             // Stäng PreparedStatement
             pstmt.close();
         } catch (Exception e) {

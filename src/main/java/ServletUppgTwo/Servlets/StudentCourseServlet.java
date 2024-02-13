@@ -8,6 +8,7 @@ import java.sql.*;
 
 @WebServlet(urlPatterns = "/studentcourse")
 public class StudentCourseServlet extends HttpServlet {
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -35,16 +36,13 @@ public class StudentCourseServlet extends HttpServlet {
             }
             out.println("</table>");
 
-            // Lägg till länkar till andra Servlets och startsidan
-            out.println("<a href=\"index.html\">Till startsidan</a>");
-            out.println("<br>");
-            out.println("<a href=\"students\">Visa alla elever</a>");
-            out.println("<br>");
-            out.println("<a href=\"course\">Visa alla kurser</a>");
-            out.println("<br>");
+            out.println("<a href=\"index.html\">Hem</a>");
+            out.println("<a href=\"addcourse\">Lägg till kurser</a>");
+            out.println("<a href=\"course\">Kurser</a>");
             out.println("<a href=\"addstudent\">Lägg till student");
-            out.println("<br>");
-            out.println("<a href=\"addcourse\">Lägg till kurs");
+            out.println("<a href=\"students\">Studenter");
+            out.println("<a href=\"assigncourse\">Tillge kurs");
+            out.println("<a href=\"studentcourse\">Studenters kurser");
 
             rs.close();
             stmt.close();
