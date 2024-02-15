@@ -24,7 +24,7 @@ public class AddCourseServlet extends HttpServlet {
         // CSS-stilar inbäddade i HTML-filen
         htmlResponse.append("<style>");
         htmlResponse.append("body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f2f2f2; }");
-        htmlResponse.append("h2 { color: #333; }");
+        htmlResponse.append("h2 { text-align: center; margin-top: 20px; }");
         htmlResponse.append("form { width: 50%; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); }");
         htmlResponse.append("label { display: block; margin-bottom: 10px; }");
         htmlResponse.append("input[type=\"text\"], input[type=\"number\"], textarea, input[type=\"submit\"] { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }");

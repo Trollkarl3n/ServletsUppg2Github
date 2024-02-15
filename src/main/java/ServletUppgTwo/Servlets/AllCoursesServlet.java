@@ -44,9 +44,6 @@ public class AllCoursesServlet extends HttpServlet {
         htmlResponse.append("<a href=\"assigncourse\">Tillge kurs</a>");
         htmlResponse.append("<a href=\"studentcourse\">Studenters kurser</a>");
 
-        // Rubrik
-        htmlResponse.append("<h2>Alla Kurser</h2>");
-
         // Tabell för att visa kurser
         htmlResponse.append("<table>");
         htmlResponse.append("<tr><th>ID</th><th>Namn</th><th>YHP</th><th>Beskrivning</th></tr>");
